@@ -6,6 +6,7 @@ import com.luxoft.web.page.LuxoftHomePage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -28,6 +29,12 @@ public class LuxoftContactUsTest extends AbstractTest {
                 .acceptAllCookies.click();
         contactUsPage
                 .selectCallUsTab();
+    }
+
+    @Test
+    public void compareLists() {
+        contactUsPage.selectWriteUsTab();
+        contactUsPage.verifyListOfMessageCategoriesEqualsToFile("src/test/resources/messageTypeList.csv");
     }
 
     @DisplayName("Check Call us phone numbers")

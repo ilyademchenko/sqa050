@@ -4,10 +4,8 @@ import com.luxoft.web.tests.AbstractTest;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
@@ -40,6 +39,12 @@ public class LuxoftHomePage {
 
     @FindBy(partialLinkText = "ACCEPT")
     public WebElement acceptAllCookies;
+
+    @FindBy(className = "footer__socials")
+    private WebElement footerSocialsContainer;
+
+    @FindBy(css = ".icomoon-facebook-logo")
+    private WebElement footerFacebookButton;
 
     public LuxoftHomePage(WebDriver driver) {
         this.driver = driver;
@@ -73,5 +78,15 @@ public class LuxoftHomePage {
         logo.click();
         wait.until(ExpectedConditions.visibilityOf(headerContactUsLink));
         return this;
+    }
+
+    private void scrollToFooterToTriggerSocials() {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", footerSocialsContainer);
+    }
+
+    @Step("Verify facebook is visible")
+    public void verifyFacebookSocialButtonIsVisible() {
+        scrollToFooterToTriggerSocials();
+        assertTrue(footerFacebookButton.isDisplayed(), "Facebook button is visible");
     }
 }

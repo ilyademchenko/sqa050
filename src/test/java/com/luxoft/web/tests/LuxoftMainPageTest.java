@@ -24,8 +24,16 @@ public class LuxoftMainPageTest extends AbstractTest {
                 homePage.getCopyrightInfoText().contains(Year.now().toString()), "Current year in copyright");
     }
 
+    @Test
+    @DisplayName("Verify that social networks are visible")
+    public void verifySocials() {
+        homePage.acceptAllCookies.click();
+        homePage.verifyFacebookSocialButtonIsVisible();
+        System.out.println("");
+    }
+
     @AfterAll
     public static void tearDown() {
-        cleanUp();
+//        cleanUp();
     }
 }

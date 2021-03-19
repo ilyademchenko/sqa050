@@ -1,5 +1,6 @@
 package com.luxoft.web.page;
 
+import com.luxoft.web.config.CsvUtils;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,8 +10,10 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
@@ -26,6 +29,9 @@ public class LuxoftContactUsPage {
     @FindBy(xpath = "//li[@class='tabs__nav__item ']/h2[contains(text(),'Call')]/span[contains(text(),'us')]/../..")
     public WebElement callUsTabButton;
 
+    @FindBy(xpath = "//li[@class='tabs__nav__item']/h2[contains(text(),'Write')]/span[contains(text(),'to us')]/../..")
+    public WebElement writeToUsTabButton;
+
     @FindBy(xpath = "//div[contains(@class, 'current')]//span[contains(@aria-labelledby, 'select2-country')]//span[@role='textbox']")
     public WebElement countrySelectContainer;
 
@@ -40,6 +46,12 @@ public class LuxoftContactUsPage {
 
     @FindBy(css = ".select2-results__options")
     public WebElement countrySelectResultsContainer;
+
+    @FindBy(xpath = "//span[contains(@class, 'select2-selection__rendered') and contains(text(), 'Select')]")
+    public WebElement messageCategorySelectContainer;
+
+    @FindBy(xpath = "//li[contains(@id, 'select2-form_text_')]")
+    public List<WebElement> messageCategorySelectOptionsList;
 
     public LuxoftContactUsPage(WebDriver driver) {
         this.driver = driver;
@@ -79,5 +91,23 @@ public class LuxoftContactUsPage {
         String actualPhoneNumber = contactUsPageWait.until(visibilityOfElementLocated(By.xpath(String.format(phoneNumberByCityLocator, city)))).getText();
         assertEquals(actualPhoneNumber, expectedPhoneNumber, "Phone number");
         return this;
+    }
+
+    public void selectWriteUsTab() {
+        contactUsPageWait.until(elementToBeClickable(writeToUsTabButton)).click();
+    }
+
+    private List<String> getListOfMessageCategories() {
+        messageCategorySelectContainer.click();
+        List<String> listOfMessageCategories = new ArrayList<>();
+        messageCategorySelectOptionsList.forEach(e -> listOfMessageCategories.add(e.getText()));
+        return listOfMessageCategories;
+    }
+
+    public void verifyListOfMessageCategoriesEqualsToFile(String filePath) {
+        List<String> expectedList = CsvUtils.obtainListFromCsv(filePath);
+        List<String> actualResult = getListOfMessageCategories();
+
+        assertEquals(expectedList, actualResult, "compare lists");
     }
 }
