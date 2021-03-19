@@ -31,7 +31,7 @@ public class LuxoftContactUsTest extends AbstractTest {
     }
 
     @DisplayName("Check Call us phone numbers")
-    @ParameterizedTest(name = "Verify '{1}' city from '{0} country has proper phone number = '{2}''")
+    @ParameterizedTest(name = "Verify {1} city from {0} country has proper phone number = {2}")
     @CsvFileSource(resources = "/phoneNumberData.csv", numLinesToSkip = 1)
     public void verifyContactPhoneNumberRefactoredSteps(String countryToSelect, String cityToSelect, String expectedPhoneNumber) {
         contactUsPage

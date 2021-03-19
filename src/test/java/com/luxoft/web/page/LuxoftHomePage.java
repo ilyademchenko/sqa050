@@ -47,6 +47,7 @@ public class LuxoftHomePage {
         PageFactory.initElements(driver, this);
     }
 
+    @Step("Get copyright info text")
     public String getCopyrightInfoText() {
         return copyrightInfo.getText();
     }

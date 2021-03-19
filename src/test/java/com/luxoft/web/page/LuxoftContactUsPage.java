@@ -20,10 +20,8 @@ public class LuxoftContactUsPage {
     private WebDriver driver;
     private WebDriverWait contactUsPageWait;
 
-    private static final String citySelectResultsLocator = "//li[contains(@class,'select2-results__option') and contains(text(),'%s')]";
+//    private static final String citySelectResultsLocator = "//li[contains(@class,'select2-results__option') and contains(text(),'%s')]";
     private static final String phoneNumberByCityLocator = "//*[contains(@class,'call-results')]/h5[contains(text(), '%s')]/following-sibling::h2";
-
-    private String errorMessage = "Hey comrade, you have an error in stack trace: %s";
 
     @FindBy(xpath = "//li[@class='tabs__nav__item ']/h2[contains(text(),'Call')]/span[contains(text(),'us')]/../..")
     public WebElement callUsTabButton;
@@ -55,7 +53,7 @@ public class LuxoftContactUsPage {
         return this;
     }
 
-    @Step("Select country = '{0}' with city = '{1}'")
+    @Step("Select country = {0} with city = {1}")
     public LuxoftContactUsPage selectCountryWithCity(String country, String city) {
         contactUsPageWait.until(elementToBeClickable(countrySelectContainer)).click();
 
@@ -73,12 +71,10 @@ public class LuxoftContactUsPage {
                 .findFirst()
                 .orElseThrow(NoSuchElementException::new);
         contactUsPageWait.until(elementToBeClickable(cityElement)).click();
-//        contactUsPageWait.until(elementToBeClickable(
-//                driver.findElement(By.xpath(String.format(citySelectResultsLocator, city))))).click();
         return this;
     }
 
-    @Step("Verify phone number for city = '{0}' is '{1}'")
+    @Step("Verify phone number for city = {0} is {1}")
     public LuxoftContactUsPage verifyPhoneNumberEquals(String city, String expectedPhoneNumber) {
         String actualPhoneNumber = contactUsPageWait.until(visibilityOfElementLocated(By.xpath(String.format(phoneNumberByCityLocator, city)))).getText();
         assertEquals(actualPhoneNumber, expectedPhoneNumber, "Phone number");

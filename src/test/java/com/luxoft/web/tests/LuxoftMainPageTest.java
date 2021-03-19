@@ -21,7 +21,7 @@ public class LuxoftMainPageTest extends AbstractTest {
     public void verifyCopyright() {
         homePage = new LuxoftHomePage(driver);
         Assertions.assertTrue(
-                homePage.copyrightInfo.getText().contains(Year.now().toString()), "Current year in copyright");
+                homePage.getCopyrightInfoText().contains(Year.now().toString()), "Current year in copyright");
     }
 
     @AfterAll
