@@ -4,6 +4,7 @@ import com.luxoft.web.page.LuxoftHomePage;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
@@ -16,7 +17,8 @@ public class AbstractTest {
 
     public static void setUp() {
         System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
-        driver = new ChromeDriver();
+        System.setProperty("webdriver.gecko.driver", "lib/geckodriver.exe");
+        driver = System.getProperty("web.driver") == "chrome" ? new ChromeDriver() : new FirefoxDriver();
         // явное ожидание, применяется при вызове
         wait = new WebDriverWait(driver, 7);
         driver.navigate().to(baseUrl);
