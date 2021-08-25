@@ -89,7 +89,7 @@ public class LuxoftContactUsPage {
     @Step("Verify phone number for city = {0} is {1}")
     public LuxoftContactUsPage verifyPhoneNumberEquals(String city, String expectedPhoneNumber) {
         String actualPhoneNumber = contactUsPageWait.until(visibilityOfElementLocated(By.xpath(String.format(phoneNumberByCityLocator, city)))).getText();
-        assertEquals(actualPhoneNumber, expectedPhoneNumber, "Phone number");
+        assertEquals(expectedPhoneNumber, actualPhoneNumber, "Phone number");
         return this;
     }
 

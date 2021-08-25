@@ -34,6 +34,6 @@ public class LuxoftMainPageTest extends AbstractTest {
 
     @AfterAll
     public static void tearDown() {
-//        cleanUp();
+        cleanUp();
     }
 }

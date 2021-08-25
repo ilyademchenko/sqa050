@@ -17,7 +17,7 @@ public class AbstractTest {
 
     public static void setUp() {
         System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
-        System.setProperty("webdriver.gecko.driver", "lib/geckodriver.exe");
+//        System.setProperty("webdriver.gecko.driver", "lib/geckodriver.exe");
         driver = new ChromeDriver();
         // явное ожидание, применяется при вызове
         wait = new WebDriverWait(driver, 7);
